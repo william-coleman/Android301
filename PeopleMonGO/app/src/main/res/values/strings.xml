@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">PeopleMonGO</string>
+    <string name="username">UserName</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="provide_valid_email">Please provide a valid Email Address</string>
+    <string name="fill_out_fields">Please fill out all fields</string>
+    <string name="passwords_dont_match">Your passwords do not match</string>
+    <string name="registration_failed">Registration Failed</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="please_provide_username_password">Please provide Username and Password</string>
+    <string name="login_successful">Login was successful</string>
+    <string name="registration_successful">Registration was successful</string>
+    <string name="email">Email</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyAkgpp6dNFPmBbagjyvxsv8-O2jW8jkw-4</string>
+</resources>
