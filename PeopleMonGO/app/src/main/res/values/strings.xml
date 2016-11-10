@@ -17,4 +17,10 @@
     <string name="email">Email</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyAkgpp6dNFPmBbagjyvxsv8-O2jW8jkw-4</string>
+    <string name="profile_menu">Profile Menu</string>
+    <string name="options">Options</string>
+    <string name="title">Title</string>
+    <string name="logout">Logout</string>
+    <string name="failed_location">Failed Location</string>
+    <string name="nearby_failed">Nearby Check Failed</string>
 </resources>

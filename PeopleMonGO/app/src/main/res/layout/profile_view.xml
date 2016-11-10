@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:padding="8dp"
+        android:text="UserName"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/show_username_field"
+        android:layout_gravity="center_horizontal"/>
+
+    <EditText
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:inputType="textPersonName"
+        android:hint="Edit your UserName"
+        android:ems="10"
+        android:id="@+id/username_edit"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:text="Save Changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/save_username"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:padding="8dp"
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:id="@+id/show_email_field"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

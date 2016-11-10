@@ -9,4 +9,5 @@ public final class Constants {
     public static final String tokenExpiration = ".expires";
     public static final String API_KEY = "iOSandroid301november2016";
     public static final String GRANT_TYPE = "password";
+    public static final Integer radiusInMeters = 500;
 }

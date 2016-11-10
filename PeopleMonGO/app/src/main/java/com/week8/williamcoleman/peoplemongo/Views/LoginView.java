@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.week8.williamcoleman.peoplemongo.Components.Constants;
+import com.week8.williamcoleman.peoplemongo.MainActivity;
 import com.week8.williamcoleman.peoplemongo.Models.Auth;
 import com.week8.williamcoleman.peoplemongo.Network.RestClient;
 import com.week8.williamcoleman.peoplemongo.Network.UserStore;
@@ -58,6 +59,8 @@ public class LoginView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.bind(this);
+
+        ((MainActivity)context).showMenuItem(false);
     }
 
     @OnClick(R.id.register_button)
@@ -97,7 +100,7 @@ public class LoginView extends LinearLayout {
 
                         Flow flow = PeopleMonGO.getMainFlow();
                         History newHistory = History.single(new MapViewStage());
-                        flow.setHistory(newHistory, Flow.Direction.REPLACE);
+                        flow.setHistory(newHistory, Flow.Direction.BACKWARD);
                     } else {
                         resetView();
                         Toast.makeText(context, getContext().getString(R.string.login_failed) + ": " + response.code(), Toast.LENGTH_LONG).show();

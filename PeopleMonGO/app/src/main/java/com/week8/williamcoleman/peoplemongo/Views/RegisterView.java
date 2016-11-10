@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.week8.williamcoleman.peoplemongo.Components.Constants;
+import com.week8.williamcoleman.peoplemongo.MainActivity;
 import com.week8.williamcoleman.peoplemongo.Models.Auth;
 import com.week8.williamcoleman.peoplemongo.Network.RestClient;
 import com.week8.williamcoleman.peoplemongo.PeopleMonGO;
@@ -64,6 +65,8 @@ public class RegisterView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.bind(this);
+
+        ((MainActivity)context).showMenuItem(false);
     }
 
     @OnClick(R.id.register_button)
@@ -97,14 +100,13 @@ public class RegisterView extends LinearLayout {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
-//                        Void regUser = response.body();
-//                        UserStore.getInstance().setToken(regUser.getToken());
-//                        UserStore.getInstance().setTokenExpiration(regUser.getExpiration());
 
                         Flow flow = PeopleMonGO.getMainFlow();
                         History newHistory = History.single(new LoginStage());
                         flow.setHistory(newHistory, Flow.Direction.BACKWARD);
                         Toast.makeText(context, "Registration was successful", Toast.LENGTH_LONG).show();
+
+                        ((MainActivity)context).showMenuItem(false);
                     } else {
                         resetView();
                         Toast.makeText(context, getContext().getString(R.string.registration_failed) + ": " + response.code(), Toast.LENGTH_LONG).show();

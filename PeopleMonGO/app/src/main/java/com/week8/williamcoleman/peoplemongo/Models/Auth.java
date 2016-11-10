@@ -27,6 +27,17 @@ public class Auth {
     @SerializedName("grantType")
     private String grantType;
 
+    @SerializedName("Latitude")
+    private Double latitude;
+
+    @SerializedName("Longitude")
+    private Double longitude;
+
+    @SerializedName("LastCheckInLatitude")
+    private Double lastCheckLat;
+
+    @SerializedName("LastCheckInLongitude")
+    private Double lastCheckLon;
 
     @SerializedName("access_token")
     private String access_Token;
@@ -36,6 +47,13 @@ public class Auth {
 
     public Auth() {
     }
+
+    public Auth(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+
 
     public Auth(String email, String fullname, String avatarbase64, String api, String password) {
         this.email = email;
@@ -49,6 +67,38 @@ public class Auth {
         this.grantType = grantType;
         this.email = email;
         this.password = password;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLastCheckLat() {
+        return lastCheckLat;
+    }
+
+    public void setLastCheckLat(Double lastCheckLat) {
+        this.lastCheckLat = lastCheckLat;
+    }
+
+    public Double getLastCheckLon() {
+        return lastCheckLon;
+    }
+
+    public void setLastCheckLon(Double lastCheckLon) {
+        this.lastCheckLon = lastCheckLon;
     }
 
     public String getAvatarbase64() {
