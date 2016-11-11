@@ -2,6 +2,9 @@ package com.week8.williamcoleman.peoplemongo.Views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,8 +23,18 @@ public class ProfileView extends LinearLayout {
     @Bind(R.id.show_username_field)
     TextView showUsernameField;
 
-    @Bind(R.id.show_email_field)
-    TextView showEmailField;
+    @Bind(R.id.avatar)
+    ImageView avatar;
+
+    @Bind(R.id.upload_picture)
+    Button uploadPicture;
+
+    @Bind(R.id.edit_name)
+    EditText editName;
+
+    @Bind(R.id.name_button)
+    Button nameBtn;
+
 
     public ProfileView(Context context, AttributeSet attrs) {
         super(context, attrs);

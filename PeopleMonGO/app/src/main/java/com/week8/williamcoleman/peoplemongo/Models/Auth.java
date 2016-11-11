@@ -53,7 +53,10 @@ public class Auth {
         this.longitude = longitude;
     }
 
-
+    public Auth(String fullname, String avatarbase64) {
+        this.fullname = fullname;
+        this.avatarbase64 = avatarbase64;
+    }
 
     public Auth(String email, String fullname, String avatarbase64, String api, String password) {
         this.email = email;

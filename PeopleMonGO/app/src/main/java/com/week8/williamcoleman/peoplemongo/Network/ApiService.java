@@ -31,4 +31,16 @@ public interface ApiService {
 
     @POST("v1/User/CheckIn")
     Call<Void>checkIn(@Body Auth auth);
+
+    @POST("/api/Account/UserInfo")
+    Call<Void> editProfile(@Body Auth auth);
+
+    @GET("/api/Account/UserInfo")
+    Call<Auth> viewProfile();
+
+    @POST("/v1/User/Catch")
+    Call<Void> catchpMon(@Body Users user);
+
+    @GET("/v1/User/Caught")
+    Call<Users[]> caughtpMon(@Body Users user);
 }

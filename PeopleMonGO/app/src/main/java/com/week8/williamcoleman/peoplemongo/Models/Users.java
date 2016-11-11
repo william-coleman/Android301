@@ -13,6 +13,17 @@ public class Users {
     @SerializedName("avatarBase64")
     private String avatarbase64;
 
+    @SerializedName("UserName")
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @SerializedName("fullname")
     private String fullname;
 
@@ -49,6 +60,11 @@ public class Users {
     public Users(Double longitude, Double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public Users(String monID, Integer radiusInMeters) {
+        this.monID = monID;
+        this.radiusInMeters = radiusInMeters;
     }
 
     public Users(String email, Double longitude, Double latitude, Date createdDate, String fullname, String avatarbase64) {

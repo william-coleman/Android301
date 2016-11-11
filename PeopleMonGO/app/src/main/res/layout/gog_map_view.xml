@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.week8.williamcoleman.peoplemongo.Views.MapPageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
-
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/pokedex"
+        app:fabSize="normal"
+        android:id="@+id/catch_button"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="16dp"
+        android:tint="@color/colorPrimary"
+        app:elevation="6dp" />
 </com.week8.williamcoleman.peoplemongo.Views.MapPageView>

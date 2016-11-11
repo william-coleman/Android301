@@ -1,7 +1,9 @@
 package com.week8.williamcoleman.peoplemongo.Views;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -29,13 +31,23 @@ import com.week8.williamcoleman.peoplemongo.MainActivity;
 import com.week8.williamcoleman.peoplemongo.Models.Auth;
 import com.week8.williamcoleman.peoplemongo.Models.Users;
 import com.week8.williamcoleman.peoplemongo.Network.RestClient;
+import com.week8.williamcoleman.peoplemongo.PeopleMonGO;
 import com.week8.williamcoleman.peoplemongo.R;
+import com.week8.williamcoleman.peoplemongo.Stages.CatchStage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import flow.Flow;
+import flow.History;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.week8.williamcoleman.peoplemongo.Components.Constants.radiusInMeters;
 
 /**
  * Created by williamcoleman on 11/7/16.
@@ -88,17 +100,16 @@ public class MapPageView extends RelativeLayout implements OnMapReadyCallback, G
 
 
     public void onMapReady(GoogleMap googleMap) {
-       map = googleMap;
+        map = googleMap;
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }
-        try{
+        try {
             map.setMyLocationEnabled(true);
-        }catch(SecurityException s) {}
-        map.getUiSettings().setZoomControlsEnabled(true);
-        map.getUiSettings().setZoomGesturesEnabled(true);
+        } catch (SecurityException s) {
+        }
     }
 
     @Override
@@ -124,15 +135,20 @@ public class MapPageView extends RelativeLayout implements OnMapReadyCallback, G
         restClient.getApiService().nearby(100).enqueue(new Callback<Users[]>() {
             @Override
             public void onResponse(Call<Users[]> call, Response<Users[]> response) {
+//                Toast.makeText(context, "Has Worked", Toast.LENGTH_LONG).show();
                 if (response.isSuccessful()) {
-                    for (Users users : response.body()) {
-                        monLat = users.getLatitude();
-                        monLon = users.getLongitude();
-                        monName = users.getFullname();
-                        monID = users.getMonID();
-                        LatLng monLatLng = new LatLng(monLon, monLat);
-                        MarkerOptions peopleMon = new MarkerOptions().position(monLatLng).snippet(monID).title(monName);//icon
-                        map.addMarker(peopleMon);
+                    ArrayList<Users> users = new ArrayList<>(Arrays.asList(response.body()));
+                    Log.d("TEST", "" + users.size());
+                    for (Users user : users) {
+                        Log.d("TEST", user.getUsersID());
+                        Log.d("TEST", "" + user.getLatitude());
+                        Log.d("TEST", "" + user.getLongitude());
+                        Log.d("TEST", user.getUserName());
+                        monName = user.getUserName();
+                        monID = user.getUsersID();
+                        LatLng monLatLng = new LatLng(user.getLatitude(), user.getLongitude());
+                        MarkerOptions peopleMon = new MarkerOptions().position(monLatLng).snippet(user.getUsersID()).title(user.getUserName());
+                        map.addMarker(new MarkerOptions().position(monLatLng));
                     }
                 }
             }
@@ -153,7 +169,7 @@ public class MapPageView extends RelativeLayout implements OnMapReadyCallback, G
                     createLocationRequest();
                 }
             } catch (SecurityException s) {
-               s.printStackTrace();
+                s.printStackTrace();
             } finally {
                 handler.postDelayed(this, 2000);
             }
@@ -161,29 +177,86 @@ public class MapPageView extends RelativeLayout implements OnMapReadyCallback, G
     };
 
 
-        protected void createLocationRequest() {
-            final LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-            MarkerOptions options = new MarkerOptions().position(latLng).title("Current Location");
-            map.addMarker(options);
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
-            checkForNearby();
+    protected void createLocationRequest() {
+        final LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+        MarkerOptions options = new MarkerOptions().position(latLng).title("Current Location");
+        map.addMarker(options);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        checkForNearby();
 
-            Auth auth = new Auth(lastLocation.getLatitude(), lastLocation.getLongitude());
-            RestClient restClient = new RestClient();
-            restClient.getApiService().checkIn(auth).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        Log.d("$$$$$$$$", latLng.toString());
-                    }
+        Auth auth = new Auth(lastLocation.getLatitude(), lastLocation.getLongitude());
+        RestClient restClient = new RestClient();
+        restClient.getApiService().checkIn(auth).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("$$$$$$$$", latLng.toString());
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(context, "Check In Failed", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "Check In Failed", Toast.LENGTH_LONG).show();
+                t.printStackTrace();
+            }
+        });
 
 
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                monName = marker.getTitle();
+                monID = marker.getSnippet();
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.peoplemon_appeared)
+                        .setMessage(R.string.would_you_like_to_catch)
+                        .setPositiveButton("Catch", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                catchpMon();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                return;
+                            }
+                        })
+                        .setIcon(R.drawable.pokeball)
+                        .show();
+                return false;
+            }
+        });
     }
+
+    public void catchpMon() {
+        Users user = new Users(monID, radiusInMeters);
+        RestClient restClient = new RestClient();
+        restClient.getApiService().catchpMon(user).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, R.string.good_catch, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, getContext().getString(R.string.catch_failed) + ":" + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "Catch Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @OnClick(R.id.catch_button)
+    public void catchTapped() {
+        Flow flow = PeopleMonGO.getMainFlow();
+        History newHistory = flow.getHistory().buildUpon()
+                .push(new CatchStage())
+                .build();
+        flow.setHistory(newHistory, Flow.Direction.FORWARD);
+    }
+}
+
+

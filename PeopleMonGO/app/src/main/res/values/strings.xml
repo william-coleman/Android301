@@ -23,4 +23,10 @@
     <string name="logout">Logout</string>
     <string name="failed_location">Failed Location</string>
     <string name="nearby_failed">Nearby Check Failed</string>
+    <string name="retrieving_image_failed">Could not retrieve image</string>
+    <string name="failure_uploading_image">Image Upload Failed</string>
+    <string name="peoplemon_appeared">A PEOPLEMON HAS APPEARED</string>
+    <string name="would_you_like_to_catch">Would you like to catch it?</string>
+    <string name="good_catch">Good Catch!</string>
+    <string name="catch_failed">Catch Failed</string>
 </resources>
